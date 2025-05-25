@@ -1,6 +1,6 @@
 import React from "react";
-import Filters from "../components/Filters";
-import JobList from "../components/JobList";
+import Filters from "../components/Filters/Filters";
+import JobList from "../components/JobList/JobList";
 import "../css/Home.css";
 
 const Home = () => {
