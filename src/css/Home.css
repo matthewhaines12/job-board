@@ -1,0 +1,20 @@
+/* Used to style specific home components, good for overall page structue */
+
+.home-container {
+  display: flex;
+  min-height: 100vh; /* Ensures full screen height at min, can grow if needed */
+}
+
+.filters {
+  width: 250px;
+  background: #e2e2e2;
+  padding: 20px;
+  border-right: 1px solid #ddd;
+  flex-shrink: 0;
+}
+
+.job-list {
+  flex-grow: 1; /* take up remaing space */
+  padding: 20px;
+  /* background: #f8f8f8; */
+}
