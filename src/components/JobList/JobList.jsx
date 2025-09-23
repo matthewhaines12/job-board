@@ -1,7 +1,6 @@
 // Structure of Right-Side Content Here
 // Display Job Cards here
 
-import React from "react";
 import JobCard from "./JobCard";
 import "../../css/JobList.css";
 

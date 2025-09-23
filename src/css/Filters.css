@@ -8,13 +8,35 @@
   border-bottom: 1px solid #a1a1a1;
 }
 
-.filter-input {
+.filter-container {
+  padding: 20px;
+}
+
+.filter-container h2 {
+  margin: 20px 0 15px 0;
+  color: #333;
+  font-size: 1.3rem;
+}
+
+.filter-input,
+.filter-dropdown {
   width: 100%;
   padding: 10px;
-  font-size: .82rem;
+  font-size: 0.82rem;
   border: 1px solid #ccc;
   border-radius: 5px;
-  /* background-color: #f8f8f8; */
-  /* margin: 0 auto; */
-  /* display: block; */
+  margin-bottom: 15px;
+  box-sizing: border-box;
+}
+
+.filter-dropdown {
+  background-color: #fff;
+  cursor: pointer;
+}
+
+.filter-input:focus,
+.filter-dropdown:focus {
+  outline: none;
+  border-color: #005ec2;
+  box-shadow: 0 0 0 2px rgba(0, 94, 194, 0.1);
 }

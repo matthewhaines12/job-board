@@ -1,9 +1,8 @@
-import React from "react";
+import "../../css/Filters.css";
 
-// Filter is an object that containts the current state of all filter values
+// Filter is an object that contains the current state of all filter values
 // setFilter is a function used to update the current filter state
 const LocationFilter = ({ filters, setFilters }) => {
-  console.log(filters.location);
   return (
     <select
       value={filters.location || ""} // sets the props state to the current selected option, if undefined it defaults to an empty string,

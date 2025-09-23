@@ -1,4 +1,3 @@
-import React from "react";
 import Filters from "../components/Filters/Filters";
 import JobList from "../components/JobList/JobList";
 import "../css/Home.css";

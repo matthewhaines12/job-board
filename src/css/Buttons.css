@@ -8,7 +8,6 @@
   cursor: pointer;
 }
 
-
 .login-btn {
   border: 1px solid #dfdfdf;
 }
@@ -25,5 +24,4 @@
 
 .login-btn:hover {
   background-color: #f7f7f7;
-
 }

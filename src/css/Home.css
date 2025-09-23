@@ -1,20 +1,17 @@
-/* Used to style specific home components, good for overall page structue */
+/* Home page layout styles */
 
 .home-container {
   display: flex;
-  min-height: 100vh; /* Ensures full screen height at min, can grow if needed */
+  min-height: 100vh;
 }
 
 .filters {
   width: 310px;
   background: #e2e2e2;
-  /* padding: 20px; */
   border-right: 1px solid #ddd;
   flex-shrink: 0;
 }
 
 .job-list {
-  flex-grow: 1; /* take up remaing space */
-  /* padding: 20px; */
-  /* background: #f8f8f8; */
+  flex-grow: 1;
 }
