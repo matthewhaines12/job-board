@@ -10,6 +10,9 @@ const ResultsSummary = ({
 }) => {
   if (loading) return null;
 
+  // Ensure jobs is always an array
+  const safeJobs = Array.isArray(jobs) ? jobs : [];
+
   const hasActiveFilters = Object.values(filters).some(
     (value) => value && value !== "" && value !== "relevance"
   );
@@ -35,10 +38,10 @@ const ResultsSummary = ({
   };
 
   const jobStats = {
-    remote: jobs.filter((job) => job.job_is_remote).length,
-    withSalary: jobs.filter((job) => job.job_min_salary || job.job_max_salary)
+    remote: safeJobs.filter((job) => job.job_is_remote).length,
+    withSalary: safeJobs.filter((job) => job.job_min_salary || job.job_max_salary)
       .length,
-    recentlyPosted: jobs.filter((job) => {
+    recentlyPosted: safeJobs.filter((job) => {
       if (!job.job_posted_at_datetime_utc) return false;
       const postedDate = new Date(job.job_posted_at_datetime_utc);
       const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -50,9 +53,9 @@ const ResultsSummary = ({
     <div className="results-summary">
       <div className="results-info">
         <div className="results-count">
-          <span className="count-number">{jobs.length}</span>
+          <span className="count-number">{safeJobs.length}</span>
           <span className="count-text">
-            {jobs.length === 1 ? "job found" : "jobs found"}
+            {safeJobs.length === 1 ? "job found" : "jobs found"}
           </span>
         </div>
 
@@ -80,7 +83,7 @@ const ResultsSummary = ({
         )}
       </div>
 
-      {jobs.length > 0 && (
+      {safeJobs.length > 0 && (
         <div className="results-stats">
           <div className="stat-pills">
             {jobStats.remote > 0 && (

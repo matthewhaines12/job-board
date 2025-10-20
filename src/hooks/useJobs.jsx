@@ -22,8 +22,11 @@ export default function useJobs(filters = {}) {
       const { keyword: _, location: __, ...additionalFilters } = filters;
 
       const jobData = await getJobs(query, location, additionalFilters);
-      console.log("✅ Fetched jobs:", jobData.length, "jobs");
-      setJobs(jobData);
+      
+      // Ensure jobData is always an array
+      const safeJobData = Array.isArray(jobData) ? jobData : [];
+      console.log("✅ Fetched jobs:", safeJobData.length, "jobs");
+      setJobs(safeJobData);
     } catch (err) {
       setError(err.message || "Failed to load jobs");
       console.error("❌ Error loading jobs:", err);

@@ -51,8 +51,22 @@ export async function getJobs(query, location, additionalFilters = {}) {
     }
 
     const data = await response.json();
-    console.log(`📦 Received ${data.length} jobs from API`);
-    return data;
+    
+    // Handle different API response formats
+    let jobs = [];
+    if (Array.isArray(data)) {
+      jobs = data;
+    } else if (data && Array.isArray(data.jobs)) {
+      jobs = data.jobs;
+    } else if (data && Array.isArray(data.data)) {
+      jobs = data.data;
+    } else {
+      console.warn("⚠️ API returned unexpected format:", data);
+      jobs = [];
+    }
+    
+    console.log(`📦 Received ${jobs.length} jobs from API`);
+    return jobs;
   } catch (error) {
     console.error("Error fetching jobs:", error);
     return [];

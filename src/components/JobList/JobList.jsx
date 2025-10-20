@@ -68,7 +68,7 @@ const JobList = ({
         </div>
       ) : (
         <div className="jobs-grid">
-          {jobs.map((job, index) => (
+          {Array.isArray(jobs) && jobs.map((job, index) => (
             <JobCard
               key={job.job_id || job._id || index}
               // Pass all job properties to the enhanced JobCard
