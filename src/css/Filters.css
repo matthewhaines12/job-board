@@ -2,31 +2,69 @@
   display: flex;
   flex-direction: row;
   gap: 2rem;
-  justify-content: center;
   width: 100%;
   padding: 20px;
-  border-bottom: 1px solid #a1a1a1;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .filter-container {
   padding: 20px;
+  max-height: 100vh;
+  overflow-y: auto;
 }
 
-.filter-container h2 {
-  margin: 20px 0 15px 0;
-  color: #333;
-  font-size: 1.3rem;
+/* Filter Header */
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.filter-header h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.job-count {
+  font-size: 0.875rem;
+  color: #6b7280;
+  background-color: #f3f4f6;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-weight: 500;
+}
+
+/* Filter Groups */
+.filters-section {
+  margin-bottom: 24px;
+}
+
+.filter-group {
+  margin-bottom: 20px;
+}
+
+.filter-label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 6px;
 }
 
 .filter-input,
 .filter-dropdown {
   width: 100%;
-  padding: 10px;
-  font-size: 0.82rem;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  margin-bottom: 15px;
+  padding: 10px 12px;
+  font-size: 0.875rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
   box-sizing: border-box;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .filter-dropdown {
@@ -37,6 +75,124 @@
 .filter-input:focus,
 .filter-dropdown:focus {
   outline: none;
-  border-color: #005ec2;
-  box-shadow: 0 0 0 2px rgba(0, 94, 194, 0.1);
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.search-input {
+  font-size: 0.95rem;
+  padding: 12px 16px;
+}
+
+/* Salary Filter */
+.salary-inputs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.salary-input {
+  flex: 1;
+  margin: 0;
+}
+
+.salary-separator {
+  font-size: 0.875rem;
+  color: #6b7280;
+  font-weight: 500;
+}
+
+/* Advanced Filters */
+.advanced-filters {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.advanced-filters h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  margin: 0 0 16px 0;
+}
+
+/* Filter Actions */
+.filter-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.clear-filters-btn {
+  flex: 1;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6b7280;
+  background-color: #f9fafb;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.clear-filters-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.filters-btn {
+  flex: 2;
+  padding: 10px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: white;
+  background-color: #2563eb;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filters-btn:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+.filters-btn:active {
+  transform: translateY(0);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filter-container {
+    padding: 16px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 16px;
+  }
+
+  .filter-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .salary-inputs {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .salary-separator {
+    align-self: center;
+  }
+
+  .filter-actions {
+    flex-direction: column;
+  }
 }

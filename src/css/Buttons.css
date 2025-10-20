@@ -18,10 +18,22 @@
   border: 1px solid #dfdfdf;
 }
 
+.filters-btn {
+  background: #0064cf;
+  color: white;
+  display: block;
+  margin: auto;
+  width: 60%;
+}
+
 .signup-btn:hover {
-  background-color: #0056b3;
+  background: #0056b3;
 }
 
 .login-btn:hover {
-  background-color: #f7f7f7;
+  background: #f7f7f7;
+}
+
+.filters-btn:hover {
+  background: #0056b3;
 }

@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import "../../css/Buttons.css";
 
-const Button = ({ text, route, type }) => {
+const AuthButton = ({ text, route, type }) => {
   const navigate = useNavigate();
 
   return (
@@ -11,4 +11,4 @@ const Button = ({ text, route, type }) => {
   );
 };
 
-export default Button;
+export default AuthButton;

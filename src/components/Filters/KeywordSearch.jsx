@@ -1,15 +1,17 @@
-import React from "react";
 import "../../css/Filters.css";
 
 const KeywordSearch = ({ filters, setFilters }) => {
   return (
-    <input
-      value={filters.keyword || ""}
-      onChange={(e) => setFilters({ ...filters, keyword: e.target.value })}
-      type="text"
-      placeholder="Search by Job Title, Skill, or Company"
-      className="filter-input"
-    />
+    <div className="filter-group">
+      <label className="filter-label">Search Jobs</label>
+      <input
+        value={filters.keyword || ""}
+        onChange={(e) => setFilters({ ...filters, keyword: e.target.value })}
+        type="text"
+        placeholder="Job title, skills, or company name..."
+        className="filter-input search-input"
+      />
+    </div>
   );
 };
 
