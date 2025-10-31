@@ -7,22 +7,13 @@ export default function useJobs(filters = {}) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Extract query from filters.keyword or default to "developer"
-  const query = filters.keyword || "developer";
-  const location = filters.location || "";
-
   const loadJobs = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
       console.log("🔍 Fetching jobs with filters:", filters);
-      console.log("📋 Query:", query, "Location:", location);
 
-      // Extract additional filters (everything except keyword and location)
-      const { keyword: _, location: __, ...additionalFilters } = filters;
-
-      const jobData = await getJobs(query, location, additionalFilters);
-      
+      const jobData = await getJobs(filters);
       // Ensure jobData is always an array
       const safeJobData = Array.isArray(jobData) ? jobData : [];
       console.log("✅ Fetched jobs:", safeJobData.length, "jobs");
@@ -33,7 +24,7 @@ export default function useJobs(filters = {}) {
     } finally {
       setLoading(false);
     }
-  }, [query, location, filters]);
+  }, [filters]);
 
   // Manual search function - only called when user clicks "Apply Changes"
   const searchJobs = useCallback(() => {

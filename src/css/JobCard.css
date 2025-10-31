@@ -159,19 +159,7 @@
 }
 
 .cutoff-text {
-  height: calc(4 * 1em * 1.5);
   line-height: 1.5;
-  overflow: hidden;
-  position: relative;
-}
-
-.cutoff-text::before {
-  content: "";
-  position: absolute;
-  height: calc(1em * 1.5);
-  width: 100%;
-  bottom: 0;
-  background: linear-gradient(to bottom, transparent, white);
 }
 
 .expanded {

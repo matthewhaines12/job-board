@@ -92,10 +92,58 @@ const JobCard = ({
     return "Posted over a year ago";
   };
 
-  const truncateDescription = (text, maxLength = 150) => {
+  const truncateDescription = (text, maxLength = 300) => {
     if (!text) return "";
     if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength) + "...";
+
+    // Find a good breaking point (end of sentence, word, or line)
+    let truncated = text.substring(0, maxLength);
+
+    // Look for the last period, exclamation, or question mark
+    const lastSentence = Math.max(
+      truncated.lastIndexOf("."),
+      truncated.lastIndexOf("!"),
+      truncated.lastIndexOf("?")
+    );
+
+    // If we found a sentence end and it's not too far back, use it
+    if (lastSentence > maxLength * 0.7) {
+      truncated = text.substring(0, lastSentence + 1);
+    } else {
+      // Otherwise, find the last space to avoid cutting words
+      const lastSpace = truncated.lastIndexOf(" ");
+      if (lastSpace > maxLength * 0.7) {
+        truncated = text.substring(0, lastSpace);
+      }
+    }
+
+    // Trim any trailing whitespace
+    truncated = truncated.trim();
+
+    return truncated + "...";
+  };
+
+  const formatDescription = (text) => {
+    if (!text) return "";
+
+    // Only fix basic formatting issues without changing styling
+    return (
+      text
+        // Add line breaks before bullet points
+        .replace(/;\s*•/g, ";\n• ")
+        // Add line breaks before section headers (text followed by colon)
+        .replace(/;\s*([A-Z][^:]+:)/g, ";\n$1")
+        // Add line breaks after colons when followed by bullet points
+        .replace(/:\s*•/g, ":\n• ")
+        // Ensure bullet points have proper spacing
+        .replace(/•\s*/g, "• ")
+        // Add line breaks before "Requirements" and similar section headers
+        .replace(
+          /;\s*(Requirements|Qualifications|What You'll Do|Must-Have|Nice-to-Have)/g,
+          ";\n\n$1"
+        )
+        .trim()
+    );
   };
 
   const getRemoteBadge = () => {
@@ -196,12 +244,13 @@ const JobCard = ({
             className={`job-description ${
               expanded ? "expanded" : "cutoff-text"
             }`}
+            style={{ whiteSpace: "pre-line" }}
           >
             {expanded
-              ? displayDescription
-              : truncateDescription(displayDescription, 150)}
+              ? formatDescription(displayDescription)
+              : truncateDescription(displayDescription, 500)}
           </p>
-          {displayDescription && displayDescription.length > 150 && (
+          {displayDescription && displayDescription.length > 500 && (
             <button className="toggle-description" onClick={handleExpandedText}>
               {expanded ? "Show less" : "Show more"}
             </button>

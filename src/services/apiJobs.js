@@ -1,43 +1,33 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function getJobs(query, location, additionalFilters = {}) {
+export async function getJobs(filters = {}) {
   try {
     // Build query parameters from all filters
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(); // Built in JS class that creates URL query strings
 
     // Main search parameters
-    if (query) params.append("query", query);
-    if (location) params.append("location", location);
+    if (filters.keyword) params.append("query", filters.keyword);
+    if (filters.location) params.append("location", filters.location);
 
     // Employment type and remote work
-    if (additionalFilters.type)
-      params.append("employment_type", additionalFilters.type);
-    if (additionalFilters.remote)
-      params.append("remote", additionalFilters.remote);
+    if (filters.type) params.append("employment_type", filters.type);
+    if (filters.remote) params.append("remote", filters.remote);
 
     // Salary filters
-    if (additionalFilters.min_salary)
-      params.append("min_salary", additionalFilters.min_salary);
-    if (additionalFilters.max_salary)
-      params.append("max_salary", additionalFilters.max_salary);
+    if (filters.min_salary) params.append("min_salary", filters.min_salary);
+    if (filters.max_salary) params.append("max_salary", filters.max_salary);
 
     // Date posted filter
-    if (additionalFilters.date_posted)
-      params.append("date_posted", additionalFilters.date_posted);
+    if (filters.date_posted) params.append("date_posted", filters.date_posted);
 
     // Sort by
-    if (additionalFilters.sort_by)
-      params.append("sort_by", additionalFilters.sort_by);
+    if (filters.sort_by) params.append("sort_by", filters.sort_by);
 
     // Legacy filters (keeping for backward compatibility)
-    if (additionalFilters.duration)
-      params.append("duration", additionalFilters.duration);
-    if (additionalFilters.experience)
-      params.append("experience", additionalFilters.experience);
-    if (additionalFilters.field)
-      params.append("field", additionalFilters.field);
-    if (additionalFilters.deadline)
-      params.append("deadline", additionalFilters.deadline);
+    if (filters.duration) params.append("duration", filters.duration);
+    if (filters.experience) params.append("experience", filters.experience);
+    if (filters.field) params.append("field", filters.field);
+    if (filters.deadline) params.append("deadline", filters.deadline);
 
     const url = `${API_URL}?${params.toString()}`;
     console.log("🌐 API Request URL:", url);
@@ -51,9 +41,9 @@ export async function getJobs(query, location, additionalFilters = {}) {
     }
 
     const data = await response.json();
-    
+
     // Handle different API response formats
-    let jobs = [];
+    let jobs;
     if (Array.isArray(data)) {
       jobs = data;
     } else if (data && Array.isArray(data.jobs)) {
@@ -61,43 +51,14 @@ export async function getJobs(query, location, additionalFilters = {}) {
     } else if (data && Array.isArray(data.data)) {
       jobs = data.data;
     } else {
-      console.warn("⚠️ API returned unexpected format:", data);
+      console.warn("Unexpected API response format:", data);
       jobs = [];
     }
-    
+
     console.log(`📦 Received ${jobs.length} jobs from API`);
     return jobs;
   } catch (error) {
     console.error("Error fetching jobs:", error);
     return [];
-  }
-}
-
-// Alternative function for filters object (more convenient)
-export async function getJobsWithFilters(filters) {
-  const { keyword = "developer", location = "", ...otherFilters } = filters;
-  return getJobs(keyword, location, otherFilters);
-}
-
-// Function to get job statistics (useful for displaying counts)
-export async function getJobStats(filters = {}) {
-  try {
-    const jobs = await getJobsWithFilters(filters);
-
-    return {
-      total: jobs.length,
-      remote: jobs.filter((job) => job.job_is_remote).length,
-      recentlyPosted: jobs.filter((job) => {
-        if (!job.job_posted_at_datetime_utc) return false;
-        const postedDate = new Date(job.job_posted_at_datetime_utc);
-        const weekAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
-        return postedDate > weekAgo;
-      }).length,
-      withSalary: jobs.filter((job) => job.job_min_salary || job.job_max_salary)
-        .length,
-    };
-  } catch (error) {
-    console.error("Error fetching job stats:", error);
-    return { total: 0, remote: 0, recentlyPosted: 0, withSalary: 0 };
   }
 }

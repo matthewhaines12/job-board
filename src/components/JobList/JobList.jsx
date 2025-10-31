@@ -68,21 +68,22 @@ const JobList = ({
         </div>
       ) : (
         <div className="jobs-grid">
-          {Array.isArray(jobs) && jobs.map((job, index) => (
-            <JobCard
-              key={job.job_id || job._id || index}
-              // Pass all job properties to the enhanced JobCard
-              {...job}
-              // Legacy props for backward compatibility
-              title={job.job_title}
-              location={job.job_location}
-              duration={job.job_posted_human_readable}
-              salary={job.job_salary || "Not specified"}
-              description={job.job_description}
-              type={job.job_employment_type}
-              jobURL={job.job_apply_link}
-            />
-          ))}
+          {Array.isArray(jobs) &&
+            jobs.map((job, index) => (
+              <JobCard
+                key={job.job_id || job._id || index}
+                // Pass all job properties to the enhanced JobCard
+                {...job}
+                // Legacy props for backward compatibility
+                title={job.job_title}
+                location={job.job_location}
+                duration={job.job_posted_human_readable}
+                salary={job.job_salary || "Not specified"}
+                description={job.job_description}
+                type={job.job_employment_type}
+                jobURL={job.job_apply_link}
+              />
+            ))}
         </div>
       )}
     </div>

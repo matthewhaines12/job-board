@@ -1,8 +1,7 @@
 import "../../css/Buttons.css";
 
-const ApplyChange = ({ text, type, onClick, filters }) => {
+const ApplyChange = ({ text, type, onClick }) => {
   const handleClick = () => {
-    console.log("Applying filters:", filters);
     // Call the search function passed from Home.jsx
     onClick();
   };
