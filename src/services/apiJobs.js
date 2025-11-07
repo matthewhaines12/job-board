@@ -30,7 +30,7 @@ export async function getJobs(filters = {}) {
     if (filters.deadline) params.append("deadline", filters.deadline);
 
     const url = `${API_URL}?${params.toString()}`;
-    console.log("🌐 API Request URL:", url);
+    console.log("API Request URL:", url);
 
     const response = await fetch(url);
 
@@ -55,7 +55,7 @@ export async function getJobs(filters = {}) {
       jobs = [];
     }
 
-    console.log(`📦 Received ${jobs.length} jobs from API`);
+    console.log(`Received ${jobs.length} jobs from API`);
     return jobs;
   } catch (error) {
     console.error("Error fetching jobs:", error);

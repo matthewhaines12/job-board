@@ -11,16 +11,16 @@ export default function useJobs(filters = {}) {
     setLoading(true);
     setError(null);
     try {
-      console.log("🔍 Fetching jobs with filters:", filters);
+      console.log("Fetching jobs with filters:", filters);
 
       const jobData = await getJobs(filters);
       // Ensure jobData is always an array
       const safeJobData = Array.isArray(jobData) ? jobData : [];
-      console.log("✅ Fetched jobs:", safeJobData.length, "jobs");
+      console.log("Fetched jobs:", safeJobData.length, "jobs");
       setJobs(safeJobData);
     } catch (err) {
       setError(err.message || "Failed to load jobs");
-      console.error("❌ Error loading jobs:", err);
+      console.error("Error loading jobs:", err);
     } finally {
       setLoading(false);
     }
