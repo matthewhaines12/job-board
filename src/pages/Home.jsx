@@ -14,7 +14,6 @@ const Home = () => {
     min_salary: "",
     max_salary: "",
     date_posted: "",
-    duration: "",
     experience: "",
     field: "",
     deadline: "",

@@ -10,8 +10,13 @@
   background: #e2e2e2;
   border-right: 1px solid #ddd;
   flex-shrink: 0;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
 }
 
 .job-list {
   flex-grow: 1;
+  overflow-y: auto;
 }

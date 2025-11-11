@@ -1,6 +1,6 @@
 // Allow users to login, if not direct them to the signup page
-import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "../../css/LoginSignup.css";
 
@@ -11,7 +11,7 @@ const Signup = () => {
     confirmPassword: "",
   });
 
-  const { handleSignup, loading, error } = useAuth();
+  const { handleSignup, loading, error } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -37,8 +37,6 @@ const Signup = () => {
     } catch (err) {
       console.log("Signup failed: ", err.message);
     }
-
-    // send to backend
   };
 
   return (

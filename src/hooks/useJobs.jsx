@@ -2,7 +2,7 @@ import { useState, useCallback } from "react";
 import { getJobs } from "../services/apiJobs";
 
 // useJobs hook: encapsulates job fetching logic and exposes state and setters
-export default function useJobs(filters = {}) {
+const useJobs = (filters = {}) => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -37,4 +37,6 @@ export default function useJobs(filters = {}) {
     error,
     searchJobs, // Manual search function for the Apply Changes button
   };
-}
+};
+
+export default useJobs;

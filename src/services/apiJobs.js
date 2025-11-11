@@ -1,6 +1,6 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
-export async function getJobs(filters = {}) {
+const getJobs = async (filters = {}) => {
   try {
     // Build query parameters from all filters
     const params = new URLSearchParams(); // Built in JS class that creates URL query strings
@@ -23,8 +23,7 @@ export async function getJobs(filters = {}) {
     // Sort by
     if (filters.sort_by) params.append("sort_by", filters.sort_by);
 
-    // Legacy filters (keeping for backward compatibility)
-    if (filters.duration) params.append("duration", filters.duration);
+    // Additional filters
     if (filters.experience) params.append("experience", filters.experience);
     if (filters.field) params.append("field", filters.field);
     if (filters.deadline) params.append("deadline", filters.deadline);
@@ -61,4 +60,6 @@ export async function getJobs(filters = {}) {
     console.error("Error fetching jobs:", error);
     return [];
   }
-}
+};
+
+export { getJobs };

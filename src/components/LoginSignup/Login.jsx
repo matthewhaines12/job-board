@@ -1,13 +1,13 @@
 // Allow users to login, if not direct them to the signup page
-import { useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "../../css/LoginSignup.css";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
 
-  const { handleLogin, loading, error } = useAuth();
+  const { handleLogin, loading, error } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -16,8 +16,8 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("attempting to login with: ", formData);
 
+    console.log("attempting to login with: ", formData);
     try {
       await handleLogin({
         email: formData.email,

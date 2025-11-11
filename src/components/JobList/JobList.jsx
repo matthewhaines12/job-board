@@ -77,7 +77,6 @@ const JobList = ({
                 // Legacy props for backward compatibility
                 title={job.job_title}
                 location={job.job_location}
-                duration={job.job_posted_human_readable}
                 salary={job.job_salary || "Not specified"}
                 description={job.job_description}
                 type={job.job_employment_type}

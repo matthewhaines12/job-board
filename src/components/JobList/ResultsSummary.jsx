@@ -1,13 +1,6 @@
-import React from "react";
 import "../../css/ResultsSummary.css";
 
-const ResultsSummary = ({
-  jobs = [],
-  filters = {},
-  loading = false,
-  showSort = true,
-  onSortChange = null,
-}) => {
+const ResultsSummary = ({ jobs = [], filters = {}, loading = false }) => {
   if (loading) return null;
 
   const hasActiveFilters = Object.values(filters).some(

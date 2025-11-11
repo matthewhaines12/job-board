@@ -3,6 +3,7 @@ import "../../css/JobCard.css";
 
 const JobCard = ({
   // Core job data from API
+  job_id,
   job_title = "Software Engineering Intern",
   employer_name = "Company Name",
   employer_logo = null,
@@ -20,14 +21,7 @@ const JobCard = ({
   job_apply_link = "https://www.linkedin.com/",
   job_highlights = {},
   job_category = null,
-  job_required_education = null,
-  job_required_experience = null,
-
-  // Legacy props for backward compatibility
   title,
-  location,
-  duration,
-  salary,
   description,
   type,
   jobURL,
@@ -151,7 +145,7 @@ const JobCard = ({
     return "On-site";
   };
 
-  // Use new props or fall back to legacy props
+  // Use props or try backup
   const displayTitle = job_title || title;
   const displayEmployer = employer_name || "Company Name";
   const displayDescription = job_description || description;
@@ -275,8 +269,9 @@ const JobCard = ({
         )}
       </div>
 
-      {/* Apply button */}
+      {/* buttons */}
       <div className="job-actions">
+        <button className="save-button">Save job</button>
         <button className="apply-button" onClick={handleViewJob}>
           Apply Now
         </button>

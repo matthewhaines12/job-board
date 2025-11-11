@@ -7,7 +7,6 @@ import TypeFilter from "./TypeFilter";
 import RemoteFilter from "./RemoteFilter";
 import SalaryFilter from "./SalaryFilter";
 import DatePostedFilter from "./DatePostedFilter";
-import DurationFilter from "./DurationFilter";
 import ExperienceFilter from "./ExperienceFilter";
 import FieldFilter from "./FieldFilter";
 import DeadlineFilter from "./DeadlineFilter";
@@ -25,7 +24,6 @@ const Filters = ({ filters, setFilters, onApplyChanges, jobCount = 0 }) => {
       min_salary: "",
       max_salary: "",
       date_posted: "",
-      duration: "",
       experience: "",
       field: "",
       deadline: "",
@@ -61,7 +59,6 @@ const Filters = ({ filters, setFilters, onApplyChanges, jobCount = 0 }) => {
           <h3>Advanced Filters</h3>
           <FieldFilter filters={filters} setFilters={setFilters} />
           <ExperienceFilter filters={filters} setFilters={setFilters} />
-          <DurationFilter filters={filters} setFilters={setFilters} />
           <DeadlineFilter filters={filters} setFilters={setFilters} />
         </div>
       </div>
