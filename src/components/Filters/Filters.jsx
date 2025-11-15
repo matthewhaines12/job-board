@@ -1,6 +1,5 @@
 // Structure of left-Side Content Here
 
-import AuthButton from "./AuthButton";
 import KeywordSearch from "./KeywordSearch";
 import LocationFilter from "./LocationFilter";
 import TypeFilter from "./TypeFilter";
@@ -33,16 +32,27 @@ const Filters = ({ filters, setFilters, onApplyChanges, jobCount = 0 }) => {
 
   return (
     <div className="filter-container">
-      <div className="button-container">
-        <AuthButton text="Login" route="/login" type="login-btn" />
-        <AuthButton text="Signup" route="/signup" type="signup-btn" />
-      </div>
-
       <div className="filter-header">
         <h2>Filters</h2>
         {jobCount > 0 && (
           <span className="job-count">{jobCount} jobs found</span>
         )}
+      </div>
+
+      <div className="filter-actions">
+        <button
+          className="clear-filters-btn"
+          onClick={handleClearFilters}
+          type="button"
+        >
+          Clear All
+        </button>
+        <ApplyChange
+          text="Apply Filters"
+          type="filters-btn"
+          onClick={onApplyChanges}
+          filters={filters}
+        />
       </div>
 
       <div className="filters-section">
@@ -61,22 +71,6 @@ const Filters = ({ filters, setFilters, onApplyChanges, jobCount = 0 }) => {
           <ExperienceFilter filters={filters} setFilters={setFilters} />
           <DeadlineFilter filters={filters} setFilters={setFilters} />
         </div>
-      </div>
-
-      <div className="filter-actions">
-        <button
-          className="clear-filters-btn"
-          onClick={handleClearFilters}
-          type="button"
-        >
-          Clear All
-        </button>
-        <ApplyChange
-          text="Apply Filters"
-          type="filters-btn"
-          onClick={onApplyChanges}
-          filters={filters}
-        />
       </div>
     </div>
   );

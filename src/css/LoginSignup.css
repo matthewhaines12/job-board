@@ -34,27 +34,48 @@
 
 .login-form input:focus {
   outline: none;
-  border-color: #0064cf;
+  border-color: #2c3e50;
+  box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
 }
 
 /* Auth Submit Button - Separate from global Buttons.css */
 .auth-submit-btn {
-  background: #0064cf;
+  background: #2c3e50;
   color: white;
   border: none;
   padding: 0.75rem;
   font-size: 1rem;
+  font-weight: 600;
   border-radius: 5px;
   cursor: pointer;
   margin-top: 1rem;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
   width: 100%;
 }
 
 .auth-submit-btn:hover {
-  background: #0056b3;
+  background: #34495e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
 }
 
 .auth-submit-btn:active {
-  background: #004494;
+  background: #1a252f;
+  transform: translateY(0);
+}
+
+.auth-submit-btn:disabled {
+  background: #9ca3af;
+  cursor: not-allowed;
+}
+
+/* Error Message */
+.error-message {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 5px;
+  font-size: 0.875rem;
+  text-align: center;
+  border: 1px solid #fecaca;
 }

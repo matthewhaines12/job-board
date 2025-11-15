@@ -2,7 +2,8 @@
 
 .home-container {
   display: flex;
-  min-height: 100vh;
+  height: calc(100vh - 64px);
+  overflow: hidden;
 }
 
 .filters {
@@ -10,13 +11,31 @@
   background: #e2e2e2;
   border-right: 1px solid #ddd;
   flex-shrink: 0;
-  height: 100vh;
-  position: sticky;
-  top: 0;
+  height: 100%;
   overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Custom scrollbar styling */
+.filters::-webkit-scrollbar {
+  width: 8px;
+}
+
+.filters::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.filters::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.filters::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 
 .job-list {
   flex-grow: 1;
   overflow-y: auto;
+  height: 100%;
 }

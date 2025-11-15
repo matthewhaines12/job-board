@@ -34,6 +34,7 @@ const AuthProvider = ({ children }) => {
       const data = await signup(userData);
       setAccessToken(data.accessToken);
       setUser(data.user);
+      console.log(data);
 
       return data;
     } catch (err) {
@@ -78,10 +79,19 @@ const AuthProvider = ({ children }) => {
   // };
 
   const handleLogout = async () => {
-    setAccessToken(null);
-    setUser(null);
-
-    await logout();
+    setLoading(true);
+    try {
+      await logout();
+      setAccessToken(null);
+      setUser(null);
+    } catch (error) {
+      console.error("Logout error:", error);
+      // Clear state even if logout API fails
+      setAccessToken(null);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Shared values *** look into useMemo later ***

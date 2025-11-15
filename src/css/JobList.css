@@ -1,6 +1,5 @@
 .job-list-container {
   padding: 24px;
-  min-height: 100vh;
 }
 
 /* Header */
@@ -36,10 +35,10 @@
 
 /* Jobs Grid */
 .jobs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 24px;
-  align-items: start;
+  width: 100%;
 }
 
 /* Loading State */

@@ -3,7 +3,11 @@ import { getJobs } from "../services/apiJobs";
 
 // useJobs hook: encapsulates job fetching logic and exposes state and setters
 const useJobs = (filters = {}) => {
-  const [jobs, setJobs] = useState([]);
+  // Load jobs from localStorage or use empty array
+  const [jobs, setJobs] = useState(() => {
+    const savedJobs = localStorage.getItem("currentJobs");
+    return savedJobs ? JSON.parse(savedJobs) : [];
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -11,20 +15,27 @@ const useJobs = (filters = {}) => {
     setLoading(true);
     setError(null);
     try {
-      console.log("Fetching jobs with filters:", filters);
-
       const jobData = await getJobs(filters);
       // Ensure jobData is always an array
       const safeJobData = Array.isArray(jobData) ? jobData : [];
-      console.log("Fetched jobs:", safeJobData.length, "jobs");
       setJobs(safeJobData);
+      // Save to localStorage
+      localStorage.setItem("currentJobs", JSON.stringify(safeJobData));
     } catch (err) {
-      setError(err.message || "Failed to load jobs");
+      const errorMessage =
+        err.message || "Failed to load jobs. Please try again.";
+      setError(errorMessage);
       console.error("Error loading jobs:", err);
+      setJobs([]); // Clear jobs on error
     } finally {
       setLoading(false);
     }
   }, [filters]);
+
+  // Load jobs on mount
+  // useEffect(() => {
+  //   loadJobs();
+  // }, []);
 
   // Manual search function - only called when user clicks "Apply Changes"
   const searchJobs = useCallback(() => {

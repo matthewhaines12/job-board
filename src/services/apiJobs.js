@@ -33,17 +33,31 @@ const getJobs = async (filters = {}) => {
 
     const response = await fetch(url);
 
+    const data = await response.json().catch(() => ({}));
+
     if (!response.ok) {
       throw new Error(
-        `Failed to fetch jobs: ${response.status} ${response.statusText}`
+        data.error ||
+          `Failed to fetch jobs: ${response.status} ${response.statusText}`
       );
     }
 
-    const data = await response.json();
-    return data;
+    console.log("API Response data:", data);
+
+    // Handle different API response structures
+    if (Array.isArray(data)) {
+      return data;
+    } else if (data && Array.isArray(data.jobs)) {
+      return data.jobs;
+    } else if (data && Array.isArray(data.data)) {
+      return data.data;
+    }
+
+    console.warn("Unexpected API response structure:", data);
+    return [];
   } catch (error) {
     console.error("Error fetching jobs:", error);
-    return [];
+    throw error;
   }
 };
 

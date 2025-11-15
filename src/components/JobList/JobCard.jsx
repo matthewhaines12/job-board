@@ -3,7 +3,7 @@ import "../../css/JobCard.css";
 
 const JobCard = ({
   // Core job data from API
-  job_id,
+  _id, // Job ID for save/delete operations
   job_title = "Software Engineering Intern",
   employer_name = "Company Name",
   employer_logo = null,
@@ -25,6 +25,10 @@ const JobCard = ({
   description,
   type,
   jobURL,
+  // Save functionality props
+  isSaved = false,
+  onToggleSave = null,
+  savingJob = false,
 }) => {
   const [expanded, setExpanded] = useState(false);
 
@@ -271,7 +275,32 @@ const JobCard = ({
 
       {/* buttons */}
       <div className="job-actions">
-        <button className="save-button">Save job</button>
+        {onToggleSave && (
+          <button
+            className={`save-button ${isSaved ? "saved" : ""}`}
+            onClick={() => {
+              onToggleSave(_id);
+            }}
+            disabled={savingJob}
+            title={isSaved ? "Remove from saved jobs" : "Save job"}
+          >
+            {savingJob ? (
+              <span className="save-spinner">⋯</span>
+            ) : (
+              <svg
+                className="save-icon"
+                viewBox="0 0 24 24"
+                fill={isSaved ? "currentColor" : "none"}
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
+              </svg>
+            )}
+          </button>
+        )}
         <button className="apply-button" onClick={handleViewJob}>
           Apply Now
         </button>

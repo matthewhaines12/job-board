@@ -1,5 +1,5 @@
 .btn {
-  background-color: #fff;
+  background: #fff;
   border: none;
   padding: 8px 16px;
   width: 75%;
@@ -8,22 +8,30 @@
   cursor: pointer;
 }
 
-.login-btn {
+/* .login-btn {
   border: 1px solid #dfdfdf;
+  color: rgb(66, 92, 220);
 }
 
 .signup-btn {
-  background: #0064cf;
+  background: rgb(255, 165, 0);
   color: white;
   border: 1px solid #dfdfdf;
-}
+} */
 
 .filters-btn {
-  background: #0064cf;
+  background: #2c3e50;
   color: white;
   display: block;
   margin: auto;
   width: 60%;
+  padding: 12px 16px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .signup-btn:hover {
@@ -35,5 +43,7 @@
 }
 
 .filters-btn:hover {
-  background: #0056b3;
+  background: #34495e;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(44, 62, 80, 0.3);
 }
