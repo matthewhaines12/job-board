@@ -40,22 +40,7 @@ const getJobs = async (filters = {}) => {
     }
 
     const data = await response.json();
-
-    // Handle different API response formats
-    let jobs;
-    if (Array.isArray(data)) {
-      jobs = data;
-    } else if (data && Array.isArray(data.jobs)) {
-      jobs = data.jobs;
-    } else if (data && Array.isArray(data.data)) {
-      jobs = data.data;
-    } else {
-      console.warn("Unexpected API response format:", data);
-      jobs = [];
-    }
-
-    console.log(`Received ${jobs.length} jobs from API`);
-    return jobs;
+    return data;
   } catch (error) {
     console.error("Error fetching jobs:", error);
     return [];

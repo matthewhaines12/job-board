@@ -2,6 +2,7 @@
 // Display Job Cards here
 
 import JobCard from "./JobCard";
+import SavedJobs from "./SavedJobs";
 import ResultsSummary from "./ResultsSummary";
 import "../../css/JobList.css";
 
@@ -50,6 +51,7 @@ const JobList = ({
     <div className="job-list-container">
       <div className="job-list-header">
         <h2 className="job-sort">Job Search Results</h2>
+        <SavedJobs></SavedJobs>
       </div>
 
       <ResultsSummary jobs={jobs} filters={filters} loading={loading} />

@@ -35,4 +35,34 @@ const login = async (credentials) => {
   return await response.json();
 };
 
-export { signup, login };
+const refresh = async () => {
+  console.log("API REFRESH POST URL:", `${AUTH_API_URL}/refresh`);
+  const response = await fetch(`${AUTH_API_URL}/refresh`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "Refresh failed");
+  }
+
+  return await response.json();
+};
+
+const logout = async () => {
+  console.log("API LOGOUT POST URL:", `${AUTH_API_URL}/logout`);
+  const response = await fetch(`${AUTH_API_URL}/logout`, {
+    method: "POST",
+    credentials: "include",
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.message || "logout failed");
+  }
+
+  return await response.json();
+};
+
+export { signup, login, refresh, logout };

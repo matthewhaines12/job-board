@@ -1,23 +1,30 @@
 // Share auth context throughout application
-import { createContext, useState, useEffect, useContext } from "react";
-import { signup, login } from "../services/apiAuth";
+import { createContext, useState, useContext, useEffect } from "react";
+import { signup, login, refresh, logout } from "../services/apiAuth";
 
 const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
-  //   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  //   useEffect(() => {
-  //     // Check if user is logged in on mount
-  //     const token = localStorage.getItem("authToken");
-  //     // const user = localStorage.getItem()
+  useEffect(() => {
+    const init = async () => {
+      try {
+        const data = await refresh();
+        setAccessToken(data.accessToken);
+        setUser(data.user);
+      } catch (err) {
+        console.log("No valid refresh token");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //     if (token) {
-  //       console.log("user is loggd in on mount");
-  //     }
-  //   }, []);
+    init();
+  }, []);
 
   const handleSignup = async (userData) => {
     setLoading(true);
@@ -25,9 +32,8 @@ const AuthProvider = ({ children }) => {
 
     try {
       const data = await signup(userData);
-      console.log("Signup Successful:", data);
-
-      // setUser(data.user);
+      setAccessToken(data.accessToken);
+      setUser(data.user);
 
       return data;
     } catch (err) {
@@ -44,10 +50,8 @@ const AuthProvider = ({ children }) => {
 
     try {
       const data = await login(credentials);
-      console.log("Login Successful:", data);
-      //   localStorage.setItem("authToken", data.token);
-      //   setUser(data.user);
-      //   if (saved) setSavedJobs(JSON.parse(saved));
+      setAccessToken(data.accessToken);
+      setUser(data.user);
 
       return data;
     } catch (err) {
@@ -58,12 +62,47 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  const value = {
-    handleSignup,
-    handleLogin,
+  // const handleRefresh = async () => {
+  //   setLoading(true);
+  //   setError(null);
+
+  //   try {
+  //     const data = await refresh();
+  //     setAccessToken(data.accessToken);
+  //   } catch (err) {
+  //     setError(err.message);
+  //     throw err;
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+
+  const handleLogout = async () => {
+    setAccessToken(null);
+    setUser(null);
+
+    await logout();
   };
 
-  return <AuthContext value={value}>{children}</AuthContext>;
+  // Shared values *** look into useMemo later ***
+  const value = {
+    user,
+    accessToken,
+    loading,
+    error,
+    handleSignup,
+    handleLogin,
+    handleLogout,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
-export { AuthProvider, AuthContext };
+const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error("useAuth must be used within the AuthProvider");
+
+  return context;
+};
+
+export { AuthProvider, useAuth, refresh };

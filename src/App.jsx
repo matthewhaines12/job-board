@@ -5,6 +5,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 
 // Setting up the main structure of the app
+// Any component insider the provider can access values.
 const App = () => {
   return (
     <AuthProvider>
