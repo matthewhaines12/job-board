@@ -1,26 +1,24 @@
 .job-card {
   background-color: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
   padding: 24px;
-  margin-bottom: 20px;
   width: 100%;
-  box-sizing: border-box;
   transition: box-shadow 0.2s ease, transform 0.1s ease;
-  cursor: pointer;
 }
 
 .job-card:hover {
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
-/* Header Section */
+/* Header */
 .job-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 16px;
+  gap: 16px;
 }
 
 .job-title-section {
@@ -38,112 +36,88 @@
   border: 1px solid #e5e7eb;
 }
 
-.title-company {
-  flex: 1;
-}
-
 .job-title {
   font-size: 1.25rem;
   font-weight: 600;
   color: #1f2937;
   margin: 0 0 4px 0;
-  cursor: pointer;
-  transition: color 0.2s ease;
   line-height: 1.3;
-}
-
-.job-title:hover {
-  color: #2563eb;
 }
 
 .employer-name {
   font-size: 0.95rem;
   color: #6b7280;
   margin: 0;
-  font-weight: 500;
 }
 
 /* Badges */
 .job-badges {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
-  align-items: flex-end;
+  gap: 8px;
 }
 
-.remote-badge {
-  padding: 4px 10px;
+.badge {
+  padding: 4px 12px;
   border-radius: 16px;
   font-size: 0.75rem;
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.3px;
 }
 
-.remote-badge.remote {
+.badge.remote {
   background-color: #dcfce7;
   color: #166534;
 }
 
-.remote-badge.onsite {
+.badge.onsite {
   background-color: #f3f4f6;
   color: #374151;
 }
 
-.employment-type-badge {
-  padding: 4px 10px;
-  border-radius: 16px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  background-color: #eff6ff;
-  color: #1d4ed8;
-}
-
-/* Job Details */
-.job-details {
-  margin-bottom: 20px;
-}
-
+/* Meta */
 .job-meta {
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-bottom: 16px;
 }
 
 .meta-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 0.9rem;
+  gap: 6px;
+  font-size: 0.875rem;
   color: #6b7280;
 }
 
-.meta-icon {
+.meta-item span::before {
+  margin-right: 6px;
   font-size: 1rem;
 }
 
-.job-location,
-.job-salary,
-.job-posted {
-  color: #374151;
-  font-weight: 500;
+.meta-item:nth-child(1) span::before {
+  content: "📍";
 }
 
-/* Tags */
-.job-tags {
-  margin-bottom: 16px;
+.meta-item:nth-child(2) span::before {
+  content: "💰";
 }
 
+.meta-item:nth-child(3) span::before {
+  content: "🕒";
+}
+
+/* Category */
 .category-tag {
   display: inline-block;
   padding: 6px 12px;
-  background-color: #f8fafc;
+  background-color: #f1f5f9;
   color: #475569;
-  border-radius: 20px;
+  border-radius: 16px;
   font-size: 0.8rem;
   font-weight: 500;
-  border: 1px solid #e2e8f0;
+  margin-bottom: 16px;
 }
 
 /* Description */
@@ -154,65 +128,72 @@
 .job-description {
   font-size: 0.92rem;
   color: #4b5563;
-  line-height: 1.5;
+  line-height: 1.6;
   margin: 0 0 8px 0;
 }
 
-.cutoff-text {
-  line-height: 1.5;
+.job-description p {
+  margin: 0 0 8px 0;
 }
 
-.expanded {
-  line-height: 1.5;
+.job-description li {
+  font-size: 0.92rem;
+  color: #4b5563;
+  line-height: 1.6;
+  margin-bottom: 6px;
+  list-style-type: disc;
+  list-style-position: inside;
 }
 
 .toggle-description {
-  color: #2563eb;
+  color: #2c3e50;
   background: none;
   border: none;
   padding: 2px 0 8px 0;
   cursor: pointer;
   font-size: 0.86rem;
-  font-weight: 500;
+  font-weight: 600;
   outline: none;
   transition: color 0.2s ease;
 }
 
 .toggle-description:hover {
-  color: #1d4ed8;
+  color: #1a252f;
 }
 
-/* Qualifications Preview */
-.qualifications-preview {
+/* Qualifications */
+.qualifications {
   margin-top: 16px;
   padding: 16px;
   background-color: #f8fafc;
   border-radius: 8px;
-  border: 1px solid #e2e8f0;
 }
 
-.qualifications-preview h4 {
+.qualifications h4 {
   font-size: 0.9rem;
   font-weight: 600;
   color: #374151;
-  margin: 0 0 8px 0;
+  margin: 0 0 12px 0;
 }
 
-.qualifications-preview ul {
+.qualifications ul {
   margin: 0;
-  padding-left: 16px;
+  padding-left: 20px;
+  list-style-type: disc;
 }
 
-.qualifications-preview li {
-  font-size: 0.85rem;
+.qualifications li {
+  font-size: 0.875rem;
   color: #6b7280;
-  margin-bottom: 4px;
-  line-height: 1.4;
+  margin-bottom: 6px;
+  line-height: 1.5;
 }
 
-.more-qualifications {
-  color: #9ca3af !important;
+.more-items {
+  font-size: 0.875rem;
+  color: #9ca3af;
   font-style: italic;
+  margin: 8px 0 0 0;
 }
 
 /* Actions */

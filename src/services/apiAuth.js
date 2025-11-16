@@ -71,7 +71,6 @@ const refresh = async () => {
 };
 
 const logout = async () => {
-  console.log("API LOGOUT POST URL:", `${AUTH_API_URL}/logout`);
   try {
     const response = await fetch(`${AUTH_API_URL}/logout`, {
       method: "POST",
@@ -91,4 +90,22 @@ const logout = async () => {
   }
 };
 
-export { signup, login, refresh, logout };
+const verifyEmail = async (emailToken) => {
+  try {
+    const response = await fetch(
+      `${AUTH_API_URL}/verify-email?token=${emailToken}`
+    );
+
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      throw new Error(data.error || "Verification failed");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Verification error:", error);
+    throw error;
+  }
+};
+
+export { signup, login, refresh, logout, verifyEmail };

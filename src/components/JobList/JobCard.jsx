@@ -2,287 +2,238 @@ import { useState } from "react";
 import "../../css/JobCard.css";
 
 const JobCard = ({
-  // Core job data from API
-  _id, // Job ID for save/delete operations
-  job_title = "Software Engineering Intern",
-  employer_name = "Company Name",
-  employer_logo = null,
-  job_city = "Altoona",
-  job_state = "PA",
-  job_country = "USA",
-  job_employment_type = "Full-time",
-  job_posted_at_datetime_utc = null,
-  job_salary_currency = "USD",
-  job_min_salary = null,
-  job_max_salary = null,
-  job_salary_period = "year",
-  job_description = "This is an internship for computer science majors who are ready for the most challenging coding tests.",
-  job_is_remote = false,
-  job_apply_link = "https://www.linkedin.com/",
-  job_highlights = {},
-  job_category = null,
-  title,
-  description,
-  type,
-  jobURL,
-  // Save functionality props
+  _id,
+  job_title,
+  employer_name,
+  employer_logo,
+  job_city,
+  job_state,
+  job_country,
+  job_employment_type,
+  job_posted_at_datetime_utc,
+  job_salary_currency,
+  job_min_salary,
+  job_max_salary,
+  job_salary_period,
+  job_description,
+  job_is_remote,
+  job_apply_link,
+  job_highlights,
+  job_category,
   isSaved = false,
   onToggleSave = null,
   savingJob = false,
+  isLoggedIn = false,
 }) => {
   const [expanded, setExpanded] = useState(false);
 
-  // Helper functions for data processing
   const formatLocation = () => {
     const cityState = [job_city, job_state].filter(Boolean).join(", ");
-    const location_display = cityState
-      ? `${cityState}, ${job_country}`
-      : job_country;
-
-    if (job_is_remote) {
-      return cityState ? `${location_display} (Remote)` : "Remote";
-    }
-    return location_display || "Location not specified";
+    const location = cityState ? `${cityState}, ${job_country}` : job_country;
+    return job_is_remote
+      ? cityState
+        ? `${location} (Remote)`
+        : "Remote"
+      : location || "Location not specified";
   };
 
   const formatSalary = () => {
     if (!job_min_salary && !job_max_salary) return null;
 
-    const currency = job_salary_currency || "USD";
-    const period = job_salary_period || "year";
-
-    const formatNumber = (num) => {
-      return new Intl.NumberFormat("en-US", {
+    const formatNumber = (num) =>
+      new Intl.NumberFormat("en-US", {
         style: "currency",
-        currency: currency,
+        currency: job_salary_currency || "USD",
         minimumFractionDigits: 0,
         maximumFractionDigits: 0,
       }).format(num);
-    };
+
+    const period = job_salary_period || "year";
 
     if (job_min_salary && job_max_salary) {
       return `${formatNumber(job_min_salary)} – ${formatNumber(
         job_max_salary
       )} / ${period}`;
-    } else if (job_min_salary) {
-      return `${formatNumber(job_min_salary)}+ / ${period}`;
-    } else {
-      return `Up to ${formatNumber(job_max_salary)} / ${period}`;
     }
+    return job_min_salary
+      ? `${formatNumber(job_min_salary)}+ / ${period}`
+      : `Up to ${formatNumber(job_max_salary)} / ${period}`;
   };
 
   const formatPostedDate = () => {
     if (!job_posted_at_datetime_utc) return null;
 
-    const postedDate = new Date(job_posted_at_datetime_utc);
-    const now = new Date();
-    const diffTime = Math.abs(now - postedDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays === 1) return "Posted 1 day ago";
-    if (diffDays < 30) return `Posted ${diffDays} days ago`;
-    if (diffDays < 365) {
-      const months = Math.ceil(diffDays / 30);
-      return months === 1
-        ? "Posted 1 month ago"
-        : `Posted ${months} months ago`;
-    }
-    return "Posted over a year ago";
-  };
-
-  const truncateDescription = (text, maxLength = 300) => {
-    if (!text) return "";
-    if (text.length <= maxLength) return text;
-
-    // Find a good breaking point (end of sentence, word, or line)
-    let truncated = text.substring(0, maxLength);
-
-    // Look for the last period, exclamation, or question mark
-    const lastSentence = Math.max(
-      truncated.lastIndexOf("."),
-      truncated.lastIndexOf("!"),
-      truncated.lastIndexOf("?")
+    const diffDays = Math.ceil(
+      (new Date() - new Date(job_posted_at_datetime_utc)) /
+        (1000 * 60 * 60 * 24)
     );
 
-    // If we found a sentence end and it's not too far back, use it
-    if (lastSentence > maxLength * 0.7) {
-      truncated = text.substring(0, lastSentence + 1);
-    } else {
-      // Otherwise, find the last space to avoid cutting words
-      const lastSpace = truncated.lastIndexOf(" ");
-      if (lastSpace > maxLength * 0.7) {
-        truncated = text.substring(0, lastSpace);
-      }
+    if (diffDays === 1) return "1 day ago";
+    if (diffDays < 30) return `${diffDays} days ago`;
+    if (diffDays < 365) {
+      const months = Math.ceil(diffDays / 30);
+      return months === 1 ? "1 month ago" : `${months} months ago`;
     }
+    return "Over a year ago";
+  };
 
-    // Trim any trailing whitespace
-    truncated = truncated.trim();
+  const truncateText = (text, maxLength = 400) => {
+    if (!text || text.length <= maxLength) return text;
 
-    return truncated + "...";
+    const truncated = text.substring(0, maxLength);
+    const lastSpace = truncated.lastIndexOf(" ");
+
+    return (
+      (lastSpace > maxLength * 0.8
+        ? truncated.substring(0, lastSpace)
+        : truncated
+      ).trim() + "..."
+    );
   };
 
   const formatDescription = (text) => {
-    if (!text) return "";
+    if (!text) return null;
 
-    // Only fix basic formatting issues without changing styling
-    return (
-      text
-        // Add line breaks before bullet points
-        .replace(/;\s*•/g, ";\n• ")
-        // Add line breaks before section headers (text followed by colon)
-        .replace(/;\s*([A-Z][^:]+:)/g, ";\n$1")
-        // Add line breaks after colons when followed by bullet points
-        .replace(/:\s*•/g, ":\n• ")
-        // Ensure bullet points have proper spacing
-        .replace(/•\s*/g, "• ")
-        // Add line breaks before "Requirements" and similar section headers
-        .replace(
-          /;\s*(Requirements|Qualifications|What You'll Do|Must-Have|Nice-to-Have)/g,
-          ";\n\n$1"
-        )
-        .trim()
-    );
+    // Split by newlines and process each line
+    return text
+      .split("\n")
+      .map((line, index) => {
+        const trimmedLine = line.trim();
+
+        // Check if line starts with bullet point indicators
+        if (trimmedLine.match(/^[•\-\*●]/)) {
+          return (
+            <li
+              key={index}
+              style={{ marginLeft: "0", listStylePosition: "inside" }}
+            >
+              {trimmedLine.replace(/^[•\-\*●]\s*/, "")}
+            </li>
+          );
+        }
+
+        // Regular text line
+        if (trimmedLine) {
+          return (
+            <p key={index} style={{ margin: "0 0 8px 0" }}>
+              {trimmedLine}
+            </p>
+          );
+        }
+
+        return null;
+      })
+      .filter(Boolean);
   };
 
-  const getRemoteBadge = () => {
-    if (job_is_remote) return "Remote";
-    return "On-site";
-  };
-
-  // Use props or try backup
-  const displayTitle = job_title || title;
-  const displayEmployer = employer_name || "Company Name";
-  const displayDescription = job_description || description;
-  const displayApplyLink = job_apply_link || jobURL;
-  const displayEmploymentType = job_employment_type || type;
-
-  const handleExpandedText = () => {
-    setExpanded(!expanded);
-  };
-
-  const handleViewJob = () => {
-    window.open(displayApplyLink, "_blank", "noopener,noreferrer");
+  const handleSaveClick = () => {
+    if (!isLoggedIn) {
+      alert("Please login to save jobs");
+      return;
+    }
+    onToggleSave(_id);
   };
 
   return (
     <div className="job-card">
-      {/* Header with title and company */}
+      {/* Header */}
       <div className="job-header">
         <div className="job-title-section">
           {employer_logo && (
             <img
               src={employer_logo}
-              alt={`${displayEmployer} logo`}
+              alt={employer_name}
               className="employer-logo"
-              onError={(e) => {
-                e.target.style.display = "none";
-              }}
+              onError={(e) => (e.target.style.display = "none")}
             />
           )}
-          <div className="title-company">
-            <h3
-              className="job-title"
-              onClick={handleViewJob}
-              title={displayTitle}
-            >
-              {displayTitle}
-            </h3>
-            <p className="employer-name">{displayEmployer}</p>
+          <div>
+            <h3 className="job-title">{job_title}</h3>
+            <p className="employer-name">{employer_name}</p>
           </div>
         </div>
-
-        {/* Badges */}
         <div className="job-badges">
-          <span
-            className={`remote-badge ${job_is_remote ? "remote" : "onsite"}`}
-          >
-            {getRemoteBadge()}
+          <span className={`badge ${job_is_remote ? "remote" : "onsite"}`}>
+            {job_is_remote ? "Remote" : "On-site"}
           </span>
-          {displayEmploymentType && (
-            <span className="employment-type-badge">
-              {displayEmploymentType}
-            </span>
+          {job_employment_type && (
+            <span className="badge">{job_employment_type}</span>
           )}
         </div>
       </div>
 
-      {/* Job details */}
-      <div className="job-details">
-        <div className="job-meta">
-          <div className="meta-item">
-            <span className="meta-icon">📍</span>
-            <span className="job-location">{formatLocation()}</span>
-          </div>
-
-          {formatSalary() && (
-            <div className="meta-item">
-              <span className="meta-icon">💰</span>
-              <span className="job-salary">{formatSalary()}</span>
-            </div>
-          )}
-
-          {formatPostedDate() && (
-            <div className="meta-item">
-              <span className="meta-icon">🕒</span>
-              <span className="job-posted">{formatPostedDate()}</span>
-            </div>
-          )}
+      {/* Meta info */}
+      <div className="job-meta">
+        <div className="meta-item">
+          <span>{formatLocation()}</span>
         </div>
-
-        {/* Job category/industry tag */}
-        {job_category && (
-          <div className="job-tags">
-            <span className="category-tag">{job_category}</span>
+        {formatSalary() && (
+          <div className="meta-item">
+            <span>{formatSalary()}</span>
           </div>
         )}
+        {formatPostedDate() && (
+          <div className="meta-item">
+            <span>{formatPostedDate()}</span>
+          </div>
+        )}
+      </div>
 
-        {/* Description */}
-        <div className="job-description-container">
-          <p
-            className={`job-description ${
-              expanded ? "expanded" : "cutoff-text"
-            }`}
-            style={{ whiteSpace: "pre-line" }}
-          >
-            {expanded
-              ? formatDescription(displayDescription)
-              : truncateDescription(displayDescription, 500)}
-          </p>
-          {displayDescription && displayDescription.length > 500 && (
-            <button className="toggle-description" onClick={handleExpandedText}>
-              {expanded ? "Show less" : "Show more"}
-            </button>
+      {/* Category */}
+      {job_category && <span className="category-tag">{job_category}</span>}
+
+      {/* Description */}
+      <div className="job-description-container">
+        <div className="job-description">
+          {formatDescription(
+            expanded ? job_description : truncateText(job_description)
           )}
         </div>
+        {job_description && job_description.length > 400 && (
+          <button
+            className="toggle-description"
+            onClick={() => setExpanded(!expanded)}
+          >
+            {expanded ? "Show less" : "Show more"}
+          </button>
+        )}
+      </div>
 
-        {/* Qualifications preview */}
-        {job_highlights?.Qualifications && !expanded && (
-          <div className="qualifications-preview">
-            <h4>Key Requirements:</h4>
+      {/* Key Requirements - Always show when available */}
+      {job_highlights?.Qualifications &&
+        job_highlights.Qualifications.length > 0 && (
+          <div className="qualifications">
+            <h4>Key Requirements</h4>
             <ul>
-              {job_highlights.Qualifications.slice(0, 3).map((qual, index) => (
+              {(expanded
+                ? job_highlights.Qualifications
+                : job_highlights.Qualifications.slice(0, 3)
+              ).map((qual, index) => (
                 <li key={index}>{qual}</li>
               ))}
-              {job_highlights.Qualifications.length > 3 && (
-                <li className="more-qualifications">
-                  +{job_highlights.Qualifications.length - 3} more...
-                </li>
-              )}
             </ul>
+            {!expanded && job_highlights.Qualifications.length > 3 && (
+              <p className="more-items">
+                +{job_highlights.Qualifications.length - 3} more
+              </p>
+            )}
           </div>
         )}
-      </div>
 
-      {/* buttons */}
+      {/* Actions */}
       <div className="job-actions">
         {onToggleSave && (
           <button
             className={`save-button ${isSaved ? "saved" : ""}`}
-            onClick={() => {
-              onToggleSave(_id);
-            }}
+            onClick={handleSaveClick}
             disabled={savingJob}
-            title={isSaved ? "Remove from saved jobs" : "Save job"}
+            title={
+              !isLoggedIn
+                ? "Login to save jobs"
+                : isSaved
+                ? "Remove from saved"
+                : "Save job"
+            }
           >
             {savingJob ? (
               <span className="save-spinner">⋯</span>
@@ -293,15 +244,18 @@ const JobCard = ({
                 fill={isSaved ? "currentColor" : "none"}
                 stroke="currentColor"
                 strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
               >
                 <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" />
               </svg>
             )}
           </button>
         )}
-        <button className="apply-button" onClick={handleViewJob}>
+        <button
+          className="apply-button"
+          onClick={() =>
+            window.open(job_apply_link, "_blank", "noopener,noreferrer")
+          }
+        >
           Apply Now
         </button>
       </div>

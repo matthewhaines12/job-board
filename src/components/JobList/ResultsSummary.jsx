@@ -1,7 +1,15 @@
 import "../../css/ResultsSummary.css";
 
-const ResultsSummary = ({ jobs = [], filters = {}, loading = false }) => {
+const ResultsSummary = ({
+  jobs = [],
+  filters = {},
+  loading = false,
+  pagination = null,
+}) => {
   if (loading) return null;
+
+  // Use total jobs from pagination if available, otherwise use jobs.length
+  const totalJobs = pagination?.total_jobs || jobs.length;
 
   const hasActiveFilters = Object.values(filters).some(
     (value) => value && value !== "" && value !== "relevance"
@@ -43,15 +51,12 @@ const ResultsSummary = ({ jobs = [], filters = {}, loading = false }) => {
     <div className="results-summary">
       <div className="results-info">
         <div className="results-count">
-          <span className="count-number">{jobs.length}</span>
-          <span className="count-text">
-            {jobs.length === 1 ? "job found" : "jobs found"}
-          </span>
+          <span className="count-number">{totalJobs}</span>
+          <span className="count-text">{totalJobs === 1 ? "job" : "jobs"}</span>
         </div>
 
-        {hasActiveFilters && (
+        {hasActiveFilters && jobs.length > 0 && (
           <div className="active-filters">
-            <span className="filter-label">Filtered by:</span>
             {getFilterSummary().map((filter, index) => (
               <span key={index} className="filter-tag">
                 {filter}
@@ -65,38 +70,30 @@ const ResultsSummary = ({ jobs = [], filters = {}, loading = false }) => {
                 +
                 {Object.values(filters).filter(
                   (v) => v && v !== "" && v !== "relevance"
-                ).length - getFilterSummary().length}{" "}
-                more
+                ).length - getFilterSummary().length}
+              </span>
+            )}
+          </div>
+        )}
+
+        {jobs.length > 0 && (
+          <div className="results-stats">
+            {jobStats.remote > 0 && (
+              <span className="stat-text">{jobStats.remote} remote</span>
+            )}
+            {jobStats.withSalary > 0 && (
+              <span className="stat-text">
+                {jobStats.withSalary} with salary
+              </span>
+            )}
+            {jobStats.recentlyPosted > 0 && (
+              <span className="stat-text">
+                {jobStats.recentlyPosted} recent
               </span>
             )}
           </div>
         )}
       </div>
-
-      {jobs.length > 0 && (
-        <div className="results-stats">
-          <div className="stat-pills">
-            {jobStats.remote > 0 && (
-              <div className="stat-pill">
-                <span className="stat-icon">🏠</span>
-                <span>{jobStats.remote} remote</span>
-              </div>
-            )}
-            {jobStats.withSalary > 0 && (
-              <div className="stat-pill">
-                <span className="stat-icon">💰</span>
-                <span>{jobStats.withSalary} with salary</span>
-              </div>
-            )}
-            {jobStats.recentlyPosted > 0 && (
-              <div className="stat-pill">
-                <span className="stat-icon">🆕</span>
-                <span>{jobStats.recentlyPosted} recent</span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
     </div>
   );
 };

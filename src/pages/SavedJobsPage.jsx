@@ -78,7 +78,7 @@ const SavedJobsPage = () => {
     return (
       <div className="saved-jobs-container">
         <EmptyState
-          icon="🔒"
+          icon=""
           title="Please log in to view saved jobs"
           description="Sign in to see your saved job listings"
         />
@@ -109,7 +109,7 @@ const SavedJobsPage = () => {
 
       {savedJobs.length === 0 ? (
         <EmptyState
-          icon="📌"
+          icon=""
           title="No saved jobs yet"
           description="Start saving jobs to view them here later"
         />

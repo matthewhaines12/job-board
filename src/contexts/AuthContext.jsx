@@ -17,7 +17,7 @@ const AuthProvider = ({ children }) => {
         setAccessToken(data.accessToken);
         setUser(data.user);
       } catch (err) {
-        console.log("No valid refresh token");
+        // No valid refresh token
       } finally {
         setLoading(false);
       }
@@ -34,7 +34,6 @@ const AuthProvider = ({ children }) => {
       const data = await signup(userData);
       setAccessToken(data.accessToken);
       setUser(data.user);
-      console.log(data);
 
       return data;
     } catch (err) {
@@ -62,21 +61,6 @@ const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
-
-  // const handleRefresh = async () => {
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     const data = await refresh();
-  //     setAccessToken(data.accessToken);
-  //   } catch (err) {
-  //     setError(err.message);
-  //     throw err;
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
 
   const handleLogout = async () => {
     setLoading(true);
@@ -115,4 +99,4 @@ const useAuth = () => {
   return context;
 };
 
-export { AuthProvider, useAuth, refresh };
+export { AuthProvider, useAuth };

@@ -2,10 +2,6 @@ import { useState, useCallback } from "react";
 import { saveJob, deleteJob } from "../services/apiUsers";
 import { useAuth } from "../contexts/AuthContext";
 
-/**
- * Hook to manage saved jobs functionality
- * Provides functions to save/delete jobs and track saved state
- */
 const useSavedJobs = () => {
   const { accessToken, user } = useAuth();
   const [savedJobIds, setSavedJobIds] = useState(new Set());
@@ -78,9 +74,6 @@ const useSavedJobs = () => {
     [accessToken, user]
   );
 
-  /**
-   * Toggle save state
-   */
   const toggleSaveJob = useCallback(
     async (jobId) => {
       if (isSaved(jobId)) {
@@ -92,9 +85,6 @@ const useSavedJobs = () => {
     [isSaved, handleSaveJob, handleDeleteJob]
   );
 
-  /**
-   * Initialize saved jobs from a list (e.g., from getSavedJobs API)
-   */
   const setSavedJobs = useCallback((jobs) => {
     const jobIds = jobs.map((job) => job._id || job.id).filter(Boolean);
     setSavedJobIds(new Set(jobIds));

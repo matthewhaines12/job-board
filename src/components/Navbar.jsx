@@ -15,7 +15,7 @@ const Navbar = () => {
     <div className="navbar-container">
       <nav className="navbar">
         <Link to="/" className="nav-logo">
-          JobBoard
+          JobJunction
         </Link>
         <div className="nav-right">
           {!user ? (

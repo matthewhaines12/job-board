@@ -1,7 +1,8 @@
 /* Login and Signup Form Styles */
 
 .signup-container,
-.login-container {
+.login-container,
+.verify-email-container {
   max-width: 400px;
   margin: 2rem auto;
   padding: 2rem;
@@ -36,6 +37,25 @@
   outline: none;
   border-color: #2c3e50;
   box-shadow: 0 0 0 3px rgba(44, 62, 80, 0.1);
+}
+
+.login-instead {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 1rem;
+  color: #555;
+}
+
+.login-link {
+  color: #555;
+}
+
+.login-link:visited {
+  color: #2e5983;
+}
+
+.login-link:hover {
+  color: #1b1b1b;
 }
 
 /* Auth Submit Button - Separate from global Buttons.css */
@@ -78,4 +98,18 @@
   font-size: 0.875rem;
   text-align: center;
   border: 1px solid #fecaca;
+}
+
+/* Verification Card */
+.verification-card {
+  background: white;
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  text-align: center;
+}
+
+.verification-card h2 {
+  color: #2c3e50;
+  margin-bottom: 0.5rem;
 }

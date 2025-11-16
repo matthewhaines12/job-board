@@ -10,10 +10,11 @@ import Home from "./pages/Home";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import SavedJobsPage from "./pages/SavedJobsPage";
+import VerifyEmailPage from "./pages/VerifyEmailPage";
 
 const AppContent = () => {
   const location = useLocation();
-  const hideNavbar = ["/login", "/signup"].includes(location.pathname);
+  const hideNavbar = [].includes(location.pathname);
 
   return (
     <>
@@ -24,6 +25,7 @@ const AppContent = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/saved-jobs" element={<SavedJobsPage />} />
+          <Route path="/verify-email" element={<VerifyEmailPage />}></Route>
         </Routes>
       </div>
     </>

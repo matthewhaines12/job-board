@@ -1,7 +1,6 @@
-// Allow users to login, if not direct them to the signup page
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../../css/LoginSignup.css";
 
 const Signup = () => {
@@ -10,8 +9,9 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
+  const [signupSuccess, setSignupSuccess] = useState(false);
+  const [localError, setLocalError] = useState(null);
   const { handleSignup, loading, error } = useAuth();
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -19,9 +19,10 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLocalError(null);
 
-    if (formData.password != formData.confirmPassword) {
-      alert("Passwords do not match");
+    if (formData.password !== formData.confirmPassword) {
+      setLocalError("Passwords do not match");
       return;
     }
 
@@ -30,19 +31,54 @@ const Signup = () => {
         email: formData.email,
         password: formData.password,
       });
-      alert("Signup Successful");
-      navigate("/");
+      setSignupSuccess(true);
     } catch (err) {
-      console.log("Signup failed: ", err.message);
+      // Error is handled by AuthContext
     }
   };
+
+  // Show verification message after successful signup
+  if (signupSuccess) {
+    return (
+      <div className="signup-container">
+        <div className="verification-card">
+          <div style={{ textAlign: "center" }}>
+            <h2>Check Your Email</h2>
+            <p
+              style={{
+                color: "#6b7280",
+                marginTop: "1rem",
+                marginBottom: "1.5rem",
+              }}
+            >
+              We've sent a verification link to{" "}
+              <strong>{formData.email}</strong>
+            </p>
+            <p style={{ color: "#6b7280", marginBottom: "1.5rem" }}>
+              Please check your email and click the verification link to
+              activate your account.
+            </p>
+            <Link
+              to="/login"
+              className="auth-submit-btn"
+              style={{ display: "inline-block", textDecoration: "none" }}
+            >
+              Go to Login
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="signup-container">
       <form onSubmit={handleSubmit} className="login-form">
         <h2>Signup</h2>
 
-        {error && <div className="error-message">{error}</div>}
+        {(error || localError) && (
+          <div className="error-message">{error || localError}</div>
+        )}
 
         <label htmlFor="email" className="email">
           Email
@@ -87,6 +123,12 @@ const Signup = () => {
           {loading ? "Signing up..." : "Signup"}
         </button>
       </form>
+      <p className="login-instead">
+        Already have an account?{" "}
+        <Link to="/login" className="login-link">
+          Log in
+        </Link>
+      </p>
     </div>
   );
 };

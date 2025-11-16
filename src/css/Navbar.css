@@ -1,5 +1,4 @@
 .navbar-container {
-  /* background: rgb(66, 92, 220); */
   background: #2c3e50;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: fixed;
@@ -28,7 +27,7 @@
 }
 
 .nav-logo:hover {
-  opacity: 0.9;
+  opacity: 0.8;
 }
 
 .nav-right {
@@ -68,14 +67,16 @@
 
 .logout-btn {
   background: #ffffff;
-  color: rgb(0, 0, 0);
+  color: #000000;
   border: none;
   border-radius: 5px;
   width: auto;
   padding: 0.5rem 1.25rem;
   font-weight: 500;
   cursor: pointer;
+  /* transition: all 0.2s ease; */
 }
 
-/* .logout-btn:hover {
-  /* background: rgba(255, 255, 255, 0.1); */
+.logout-btn:hover {
+  background: #f3f4f6;
+}
