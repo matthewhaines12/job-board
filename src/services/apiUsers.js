@@ -1,6 +1,6 @@
-import { refresh } from "./apiAuth";
+import { refresh } from './apiAuth';
 
-const USERS_API_URL = import.meta.env.VITE_API_URL3;
+const USERS_API_URL = import.meta.env.VITE_API_USERS_URL;
 
 const getSavedJobs = async (accessToken) => {
   try {
@@ -29,7 +29,7 @@ const getSavedJobs = async (accessToken) => {
 
     return data;
   } catch (error) {
-    console.error("Error in getSavedJobs:", error);
+    console.error('Error in getSavedJobs:', error);
     throw error;
   }
 };
@@ -37,10 +37,10 @@ const getSavedJobs = async (accessToken) => {
 const saveJob = async (accessToken, jobID) => {
   try {
     let response = await fetch(`${USERS_API_URL}/save-job`, {
-      method: "POST",
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({ jobID: jobID }),
     });
@@ -48,10 +48,10 @@ const saveJob = async (accessToken, jobID) => {
     if (response.status === 403) {
       const newData = await refresh();
       response = await fetch(`${USERS_API_URL}/save-job`, {
-        method: "POST",
+        method: 'POST',
         headers: {
           Authorization: `Bearer ${newData.accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ jobID: jobID }),
       });
@@ -65,7 +65,7 @@ const saveJob = async (accessToken, jobID) => {
 
     return data;
   } catch (error) {
-    console.error("Error in saveJob:", error);
+    console.error('Error in saveJob:', error);
     throw error;
   }
 };
@@ -73,7 +73,7 @@ const saveJob = async (accessToken, jobID) => {
 const deleteJob = async (accessToken, jobID) => {
   try {
     let response = await fetch(`${USERS_API_URL}/saved-jobs/${jobID}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -82,7 +82,7 @@ const deleteJob = async (accessToken, jobID) => {
     if (response.status === 403) {
       const newData = await refresh();
       response = await fetch(`${USERS_API_URL}/saved-jobs/${jobID}`, {
-        method: "DELETE",
+        method: 'DELETE',
         headers: {
           Authorization: `Bearer ${newData.accessToken}`,
         },
@@ -97,7 +97,7 @@ const deleteJob = async (accessToken, jobID) => {
 
     return data;
   } catch (error) {
-    console.error("Error in deleteJob:", error);
+    console.error('Error in deleteJob:', error);
     throw error;
   }
 };

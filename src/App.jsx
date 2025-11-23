@@ -3,14 +3,14 @@ import {
   Routes,
   Route,
   useLocation,
-} from "react-router-dom";
-import { AuthProvider } from "./contexts/AuthContext";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import LoginPage from "./pages/LoginPage";
-import SignupPage from "./pages/SignupPage";
-import SavedJobsPage from "./pages/SavedJobsPage";
-import VerifyEmailPage from "./pages/VerifyEmailPage";
+} from 'react-router-dom';
+import { AuthProvider } from './contexts/AuthContext';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+import SavedJobsPage from './pages/SavedJobsPage';
+import VerifyEmailPage from './pages/VerifyEmailPage';
 
 const AppContent = () => {
   const location = useLocation();
@@ -19,7 +19,7 @@ const AppContent = () => {
   return (
     <>
       {!hideNavbar && <Navbar />}
-      <div style={hideNavbar ? {} : { paddingTop: "64px" }}>
+      <div style={hideNavbar ? {} : { paddingTop: '62px' }}>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginPage />} />

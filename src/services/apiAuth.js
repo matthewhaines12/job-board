@@ -1,11 +1,11 @@
-const AUTH_API_URL = import.meta.env.VITE_API_URL2;
+const AUTH_API_URL = import.meta.env.VITE_API_AUTH_URL;
 
 const signup = async (userData) => {
   try {
     const response = await fetch(`${AUTH_API_URL}/signup`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify(userData),
     });
 
@@ -19,7 +19,7 @@ const signup = async (userData) => {
 
     return data;
   } catch (error) {
-    console.error("Signup error:", error);
+    console.error('Signup error:', error);
     throw error;
   }
 };
@@ -27,11 +27,11 @@ const signup = async (userData) => {
 const login = async (credentials) => {
   try {
     const response = await fetch(`${AUTH_API_URL}/login`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-      credentials: "include",
+      credentials: 'include',
       body: JSON.stringify(credentials),
     });
 
@@ -45,7 +45,7 @@ const login = async (credentials) => {
 
     return data;
   } catch (error) {
-    console.error("Login error:", error);
+    console.error('Login error:', error);
     throw error;
   }
 };
@@ -53,19 +53,19 @@ const login = async (credentials) => {
 const refresh = async () => {
   try {
     const response = await fetch(`${AUTH_API_URL}/refresh`, {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
     });
 
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.error || "Session expired");
+      throw new Error(data.error || 'Session expired');
     }
 
     return data;
   } catch (error) {
-    console.error("Refresh error:", error);
+    console.error('Refresh error:', error);
     throw error;
   }
 };
@@ -73,19 +73,19 @@ const refresh = async () => {
 const logout = async () => {
   try {
     const response = await fetch(`${AUTH_API_URL}/logout`, {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
     });
 
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.error || "Logout failed");
+      throw new Error(data.error || 'Logout failed');
     }
 
     return data;
   } catch (error) {
-    console.error("Logout error:", error);
+    console.error('Logout error:', error);
     throw error;
   }
 };
@@ -98,12 +98,12 @@ const verifyEmail = async (emailToken) => {
 
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(data.error || "Verification failed");
+      throw new Error(data.error || 'Verification failed');
     }
 
     return data;
   } catch (error) {
-    console.error("Verification error:", error);
+    console.error('Verification error:', error);
     throw error;
   }
 };

@@ -97,39 +97,39 @@
 }
 
 .meta-item:nth-child(1) span::before {
-  content: "📍";
+  content: '📍';
 }
 
 .meta-item:nth-child(2) span::before {
-  content: "💰";
+  content: '💰';
 }
 
 .meta-item:nth-child(3) span::before {
-  content: "🕒";
+  content: '🕒';
 }
 
 /* Category */
 .category-tag {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 4px 8px;
   background-color: #f1f5f9;
   color: #475569;
   border-radius: 16px;
   font-size: 0.8rem;
   font-weight: 500;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 /* Description */
 .job-description-container {
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .job-description {
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   color: #4b5563;
-  line-height: 1.6;
-  margin: 0 0 8px 0;
+  line-height: 1.4;
+  margin: 0 0 4px 0;
 }
 
 .job-description p {
