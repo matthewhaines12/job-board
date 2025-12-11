@@ -2,6 +2,20 @@ import { refresh } from './apiAuth';
 
 const USERS_API_URL = import.meta.env.VITE_API_USERS_URL;
 
+let authContextUpdater = null;
+
+export const setAuthContextUpdater = (updater) => {
+  authContextUpdater = updater;
+};
+
+const handleTokenRefresh = async () => {
+  const newData = await refresh();
+  if (authContextUpdater && newData.accessToken) {
+    authContextUpdater(newData.accessToken, newData.user);
+  }
+  return newData;
+};
+
 const getSavedJobs = async (accessToken) => {
   try {
     let response = await fetch(`${USERS_API_URL}/saved-jobs`, {
@@ -11,7 +25,7 @@ const getSavedJobs = async (accessToken) => {
     });
 
     if (response.status === 403) {
-      const newData = await refresh();
+      const newData = await handleTokenRefresh();
       response = await fetch(`${USERS_API_URL}/saved-jobs`, {
         headers: {
           Authorization: `Bearer ${newData.accessToken}`,
@@ -46,7 +60,7 @@ const saveJob = async (accessToken, jobID) => {
     });
 
     if (response.status === 403) {
-      const newData = await refresh();
+      const newData = await handleTokenRefresh();
       response = await fetch(`${USERS_API_URL}/save-job`, {
         method: 'POST',
         headers: {
@@ -80,7 +94,7 @@ const deleteJob = async (accessToken, jobID) => {
     });
 
     if (response.status === 403) {
-      const newData = await refresh();
+      const newData = await handleTokenRefresh();
       response = await fetch(`${USERS_API_URL}/saved-jobs/${jobID}`, {
         method: 'DELETE',
         headers: {

@@ -1,14 +1,14 @@
 // Structure of Right-Side Content Here
 // Display Job Cards here
 
-import JobCard from "./JobCard";
-import ResultsSummary from "./ResultsSummary";
-import LoadingState from "../shared/LoadingState";
-import ErrorState from "../shared/ErrorState";
-import EmptyState from "../shared/EmptyState";
-import useSavedJobs from "../../hooks/useSavedJobs";
-import { useAuth } from "../../contexts/AuthContext";
-import "../../css/JobList.css";
+import JobCard from './JobCard';
+import ResultsSummary from './ResultsSummary';
+import LoadingState from '../shared/LoadingState';
+import ErrorState from '../shared/ErrorState';
+import EmptyState from '../shared/EmptyState';
+import useSavedJobs from '../../hooks/useSavedJobs';
+import { useAuth } from '../../contexts/AuthContext';
+import '../../css/JobList.css';
 
 const JobList = ({
   jobs = [],
@@ -38,7 +38,7 @@ const JobList = ({
 
       // Show ellipsis or pages near start
       if (showEllipsisStart) {
-        pages.push("...");
+        pages.push('...');
       } else if (total_pages > 1) {
         for (let i = 2; i < Math.min(4, total_pages); i++) {
           pages.push(i);
@@ -56,7 +56,7 @@ const JobList = ({
 
       // Show ellipsis or pages near end
       if (showEllipsisEnd) {
-        pages.push("...");
+        pages.push('...');
       } else if (total_pages > 3) {
         for (
           let i = Math.max(total_pages - 2, current_page + 1);
@@ -89,7 +89,7 @@ const JobList = ({
 
         <div className="pagination-pages">
           {getPageNumbers().map((page, index) =>
-            page === "..." ? (
+            page === '...' ? (
               <span key={`ellipsis-${index}`} className="pagination-ellipsis">
                 ...
               </span>
@@ -97,7 +97,7 @@ const JobList = ({
               <button
                 key={page}
                 className={`pagination-page ${
-                  current_page === page ? "active" : ""
+                  current_page === page ? 'active' : ''
                 }`}
                 onClick={() => onPageChange(page)}
               >
@@ -142,8 +142,6 @@ const JobList = ({
     );
   }
 
-  jobs.length === 1 ? "1 job found" : `${jobs.length} jobs found`;
-
   return (
     <div className="job-list-container">
       <div className="job-list-header">
@@ -157,16 +155,18 @@ const JobList = ({
         pagination={pagination}
       />
 
+      {renderPagination()}
+
       {jobs.length === 0 ? (
         <EmptyState
           icon="🔍"
           title="No jobs match your criteria"
           description="Try adjusting your search filters:"
           suggestions={[
-            "Use broader keywords",
-            "Expand your location search",
-            "Remove some filters",
-            "Check your spelling",
+            'Use broader keywords',
+            'Expand your location search',
+            'Remove some filters',
+            'Check your spelling',
           ]}
         />
       ) : (
@@ -183,7 +183,7 @@ const JobList = ({
                     // Legacy props for backward compatibility
                     title={job.job_title}
                     location={job.job_location}
-                    salary={job.job_salary || "Not specified"}
+                    salary={job.job_salary || 'Not specified'}
                     description={job.job_description}
                     type={job.job_employment_type}
                     jobURL={job.job_apply_link}

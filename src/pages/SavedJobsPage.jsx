@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import { getSavedJobs } from "../services/apiUsers";
-import { useAuth } from "../contexts/AuthContext";
-import JobCard from "../components/JobList/JobCard";
-import LoadingState from "../components/shared/LoadingState";
-import ErrorState from "../components/shared/ErrorState";
-import EmptyState from "../components/shared/EmptyState";
-import useSavedJobs from "../hooks/useSavedJobs";
-import "../css/SavedJobs.css";
+import { useEffect, useState } from 'react';
+import { getSavedJobs } from '../services/apiUsers';
+import { useAuth } from '../contexts/AuthContext';
+import JobCard from '../components/JobList/JobCard';
+import LoadingState from '../components/shared/LoadingState';
+import ErrorState from '../components/shared/ErrorState';
+import EmptyState from '../components/shared/EmptyState';
+import useSavedJobs from '../hooks/useSavedJobs';
+import '../css/SavedJobs.css';
 
 const SavedJobsPage = () => {
   const { user, accessToken, loading: authLoading } = useAuth();
@@ -34,7 +34,7 @@ const SavedJobsPage = () => {
         // Initialize saved job IDs in the hook
         initializeSavedJobs(jobs);
       } catch (error) {
-        console.error("Failed to fetch saved jobs:", error);
+        console.error('Failed to fetch saved jobs:', error);
         setError(error.message);
       } finally {
         setLoading(false);
@@ -61,7 +61,7 @@ const SavedJobsPage = () => {
         setSavedJobs(jobs);
         initializeSavedJobs(jobs);
       } catch (error) {
-        console.error("Failed to refresh saved jobs:", error);
+        console.error('Failed to refresh saved jobs:', error);
       }
     }
   };
@@ -100,9 +100,9 @@ const SavedJobsPage = () => {
         <h2>Saved Jobs</h2>
         <p className="saved-count">
           {savedJobs.length === 0
-            ? "No saved jobs"
+            ? 'No saved jobs'
             : savedJobs.length === 1
-            ? "1 saved job"
+            ? '1 saved job'
             : `${savedJobs.length} saved jobs`}
         </p>
       </div>
@@ -121,7 +121,7 @@ const SavedJobsPage = () => {
               {...job}
               title={job.job_title}
               location={job.job_location}
-              salary={job.job_salary || "Not specified"}
+              salary={job.job_salary || 'Not specified'}
               description={job.job_description}
               type={job.job_employment_type}
               jobURL={job.job_apply_link}
@@ -129,6 +129,7 @@ const SavedJobsPage = () => {
               isSaved={isSaved(job._id || job.id)}
               onToggleSave={handleToggleSave}
               savingJob={savingJob}
+              isLoggedIn={!!user}
             />
           ))}
         </div>

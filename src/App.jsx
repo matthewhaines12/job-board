@@ -4,7 +4,9 @@ import {
   Route,
   useLocation,
 } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { useEffect } from 'react';
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { setAuthContextUpdater } from './services/apiUsers';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
@@ -15,6 +17,12 @@ import VerifyEmailPage from './pages/VerifyEmailPage';
 const AppContent = () => {
   const location = useLocation();
   const hideNavbar = [].includes(location.pathname);
+  const { updateAccessToken } = useAuth();
+
+  useEffect(() => {
+    // Set up the auth context updater for API services
+    setAuthContextUpdater(updateAccessToken);
+  }, [updateAccessToken]);
 
   return (
     <>

@@ -1,5 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
-import { getJobs } from "../services/apiJobs";
+import { useState, useCallback, useEffect } from 'react';
+import { getJobs } from '../services/apiJobs';
 
 // useJobs hook: encapsulates job fetching logic and exposes state and setters
 const useJobs = (filters = {}, page = 1) => {
@@ -14,14 +14,14 @@ const useJobs = (filters = {}, page = 1) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await getJobs(filters, pageNum, 25);
+        const response = await getJobs(filters, pageNum, 10);
         setJobs(response.jobs || []);
         setPagination(response.pagination);
       } catch (err) {
         const errorMessage =
-          err.message || "Failed to load jobs. Please try again.";
+          err.message || 'Failed to load jobs. Please try again.';
         setError(errorMessage);
-        console.error("Error loading jobs:", err);
+        console.error('Error loading jobs:', err);
         setJobs([]);
         setPagination(null);
       } finally {

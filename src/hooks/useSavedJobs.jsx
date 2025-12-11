@@ -1,6 +1,6 @@
-import { useState, useCallback } from "react";
-import { saveJob, deleteJob } from "../services/apiUsers";
-import { useAuth } from "../contexts/AuthContext";
+import { useState, useCallback } from 'react';
+import { saveJob, deleteJob } from '../services/apiUsers';
+import { useAuth } from '../contexts/AuthContext';
 
 const useSavedJobs = () => {
   const { accessToken, user } = useAuth();
@@ -18,12 +18,12 @@ const useSavedJobs = () => {
   const handleSaveJob = useCallback(
     async (jobId) => {
       if (!jobId) {
-        setError("Invalid job ID");
+        setError('Invalid job ID');
         return false;
       }
 
-      if (!user || !accessToken) {
-        setError("Please log in to save jobs");
+      if (!accessToken) {
+        setError('Please log in to save jobs');
         return false;
       }
 
@@ -35,20 +35,20 @@ const useSavedJobs = () => {
         setSavedJobIds((prev) => new Set([...prev, jobId]));
         return true;
       } catch (err) {
-        console.error("Failed to save job:", err);
+        console.error('Failed to save job:', err);
         setError(err.message);
         return false;
       } finally {
         setLoading(false);
       }
     },
-    [accessToken, user]
+    [accessToken]
   );
 
   const handleDeleteJob = useCallback(
     async (jobId) => {
-      if (!user || !accessToken) {
-        setError("Please log in to manage saved jobs");
+      if (!accessToken) {
+        setError('Please log in to manage saved jobs');
         return false;
       }
 
@@ -64,14 +64,14 @@ const useSavedJobs = () => {
         });
         return true;
       } catch (err) {
-        console.error("Failed to delete job:", err);
+        console.error('Failed to delete job:', err);
         setError(err.message);
         return false;
       } finally {
         setLoading(false);
       }
     },
-    [accessToken, user]
+    [accessToken]
   );
 
   const toggleSaveJob = useCallback(

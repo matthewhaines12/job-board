@@ -1,6 +1,6 @@
 // Share auth context throughout application
-import { createContext, useState, useContext, useEffect } from "react";
-import { signup, login, refresh, logout } from "../services/apiAuth";
+import { createContext, useState, useContext, useEffect } from 'react';
+import { signup, login, refresh, logout } from '../services/apiAuth';
 
 const AuthContext = createContext();
 
@@ -69,13 +69,18 @@ const AuthProvider = ({ children }) => {
       setAccessToken(null);
       setUser(null);
     } catch (error) {
-      console.error("Logout error:", error);
+      console.error('Logout error:', error);
       // Clear state even if logout API fails
       setAccessToken(null);
       setUser(null);
     } finally {
       setLoading(false);
     }
+  };
+
+  const updateAccessToken = (newToken, newUser) => {
+    if (newToken) setAccessToken(newToken);
+    if (newUser) setUser(newUser);
   };
 
   // Shared values *** look into useMemo later ***
@@ -87,6 +92,7 @@ const AuthProvider = ({ children }) => {
     handleSignup,
     handleLogin,
     handleLogout,
+    updateAccessToken,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -94,7 +100,7 @@ const AuthProvider = ({ children }) => {
 
 const useAuth = () => {
   const context = useContext(AuthContext);
-  if (!context) throw new Error("useAuth must be used within the AuthProvider");
+  if (!context) throw new Error('useAuth must be used within the AuthProvider');
 
   return context;
 };
